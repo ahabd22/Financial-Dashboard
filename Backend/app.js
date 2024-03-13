@@ -14,10 +14,16 @@ app.get('/', (req, res)=> {
     res.send('Hello World')
 })
 
-const server = () => {
-    app.listen(PORT, () =>{
-        console.log('listening to port:', PORT)
-    })
-}
 
-server()
+const server = async () => {
+    try {
+        const db = await connectToDatabase();
+        app.listen(PORT, () => {
+            console.log('Listening to port:', PORT);
+        });
+    } catch (error) {
+        console.error('Error starting server:', error);
+    }
+};
+
+server();
