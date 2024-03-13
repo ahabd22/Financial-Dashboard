@@ -1,6 +1,8 @@
 const express = require('express')
 const cors = require('cors')
 const app = express()
+const { db } = require('./db/db'); // Adjust the path accordingly
+
 
 require('dotenv').config()
 
@@ -15,9 +17,8 @@ app.use(cors())
 const server = () => {
         db()
         app.listen(PORT, () => {
-            console.log('Listening to port:', PORT);
+            console.log('Listening to port:', PORT)
         });
     }
-
 
 server();
