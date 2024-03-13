@@ -10,20 +10,14 @@ const PORT = process.env.PORT
 app.use(express.json())
 app.use(cors())
 
-app.get('/', (req, res)=> {
-    res.send('Hello World')
-})
 
 
-const server = async () => {
-    try {
-        const db = await connectToDatabase();
+const server = () => {
+        db()
         app.listen(PORT, () => {
             console.log('Listening to port:', PORT);
         });
-    } catch (error) {
-        console.error('Error starting server:', error);
     }
-};
+
 
 server();

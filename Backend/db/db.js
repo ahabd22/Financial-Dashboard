@@ -1,5 +1,4 @@
-const mongoose=  require ('mongoose')
-
+const mongoose = require('mongoose');
 
 const db = async () => {
     try {
