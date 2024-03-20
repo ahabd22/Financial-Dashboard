@@ -1,7 +1,7 @@
 const express = require('express')
 const cors = require('cors')
 const app = express()
-const { db } = require('./db/db'); // Adjust the path accordingly
+const { db } = require('./db/db');
 const {readdirSync} = require('fs')
 
 require('dotenv').config()
