@@ -10,7 +10,7 @@ function Navigation(active, setActive) {
     return (
         <NavStyled>
             <div className="user-con">
-                <img src={avatar} alt="" />
+            <img src="./img/Avatar.jpg" alt="" />
                 <div className="text">
                     <h2>Dave</h2>
                     <p>Your Money</p>

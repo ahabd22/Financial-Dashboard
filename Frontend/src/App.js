@@ -1,49 +1,49 @@
-import React from 'react'
 import React, {useState, useMemo} from 'react'
 import styled from "styled-components";
-import {MainLayout} from './styles/Layouts'
 import bg from './img/bg.png'
+import {MainLayout} from './styles/Layouts'
 import Orb from './components/Orb/Orb'
-import {menuItems} from "./utils/menuItems";
-import Navigation from "./components/Navigation/Navigation";
-import Dashboard from "./components/Dashboard/Dashboard";
-import income from "./components/Incomes/Income";
-import Expenses from "./components/Expenses/Expenses";
+import Navigation from './components/Navigation/Navigation'
+import Dashboard from './components/Dashboard/Dashboard';
+import Income from './components/Incomes/Income'
+import Expenses from './components/Expenses/Expenses';
+import { useGlobalContext } from './context/globalContext';
+
 function App() {
-    const [active, setActive] = useState(1)
+  const [active, setActive] = useState(1)
 
+  const global = useGlobalContext()
+  console.log(global);
 
-    const displayData = () => {
-        switch (active){
-            case 1:
-                return <Dashboard />
-            case 2:
-               return <Dashboard/>
-            case 3:
-                return <Income/>
-            case 4:
-                return <Expenses/>
-
-            default: return <Dashboard/>
-
-
-        }
+  const displayData = () => {
+    switch(active){
+      case 1:
+        return <Dashboard />
+      case 2:
+        return <Dashboard />
+      case 3:
+        return <Income />
+      case 4: 
+        return <Expenses />
+      default: 
+        return <Dashboard />
     }
-const orbMemo = useMemo(() => {
+  }
 
-return <Orb/>
+  const orbMemo = useMemo(() => {
+    return <Orb />
+  },[])
 
-    },[])
   return (
-      <AppStyled bg={bg} className="App">
-          {orbMemo}
-        <MainLayout>
-            <Navigation active={active} setActive{setActive} />
-            <main>
-                {displayData}
-            </main>
-        </MainLayout>
-      </AppStyled>
+    <AppStyled bg={bg} className="App">
+      {orbMemo}
+      <MainLayout>
+        <Navigation active={active} setActive={setActive} />
+        <main>
+          {displayData()}
+        </main>
+      </MainLayout>
+    </AppStyled>
   );
 }
 
@@ -63,8 +63,5 @@ const AppStyled = styled.div`
     }
   }
 `;
-
-
-
 
 export default App;
