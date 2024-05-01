@@ -1,18 +1,17 @@
-import React from 'react';
-import styled from "styled-components";
-import {signout} from "../../utils/Icons";
-import {menuItems} from "../../utils/menuItems";
+import React, { useState } from 'react'
+import styled from 'styled-components'
+import avatar from '../../img/avatar.jpg'
+import { signout } from '../../utils/Icons'
+import { menuItems } from '../../utils/menuItems'
 
-// its Here where we need to create an avatar under img so we can import it in this class
-function Navigation(active, setActive) {
-
-
+function Navigation({active, setActive}) {
+    
     return (
         <NavStyled>
             <div className="user-con">
-            <img src="./img/Avatar.jpg" alt="" />
+                <img src={avatar} alt="" />
                 <div className="text">
-                    <h2>Dave</h2>
+                    <h2>Mike</h2>
                     <p>Your Money</p>
                 </div>
             </div>
@@ -22,7 +21,6 @@ function Navigation(active, setActive) {
                         key={item.id}
                         onClick={() => setActive(item.id)}
                         className={active === item.id ? 'active': ''}
-
                     >
                         {item.icon}
                         <span>{item.title}</span>
@@ -38,11 +36,10 @@ function Navigation(active, setActive) {
     )
 }
 
-// error on styled because we have not started on styling it yet.
 const NavStyled = styled.nav`
-padding: 2rem 1.5rem;
-width: 374px;
-    height: 100%:
+    padding: 2rem 1.5rem;
+    width: 374px;
+    height: 100%;
     background: rgba(252, 246, 249, 0.78);
     border: 3px solid #FFFFFF;
     backdrop-filter: blur(4.5px);
@@ -58,23 +55,22 @@ width: 374px;
         gap: 1rem;
         img{
             width: 80px;
-            height 80px;
+            height: 80px;
             border-radius: 50%;
             object-fit: cover;
             background: #fcf6f9;
             border: 2px solid #FFFFFF;
             padding: .2rem;
-            box-shadow: 0px 1px 17px rgba(0,0,0,0.06);
-            
+            box-shadow: 0px 1px 17px rgba(0, 0, 0, 0.06);
         }
         h2{
             color: rgba(34, 34, 96, 1);
         }
         p{
-            color: rgba(34, 34, 96, 1);
+            color: rgba(34, 34, 96, .6);
         }
     }
-    
+
     .menu-items{
         flex: 1;
         display: flex;
@@ -87,22 +83,21 @@ width: 374px;
             font-weight: 500;
             cursor: pointer;
             transition: all .4s ease-in-out;
+            color: rgba(34, 34, 96, .6);
             padding-left: 1rem;
             position: relative;
             i{
                 color: rgba(34, 34, 96, 0.6);
                 font-size: 1.4rem;
                 transition: all .4s ease-in-out;
-                
-                
             }
         }
     }
-    
+
     .active{
-        color: rgba(34, 34, 96, 1) !important ;
+        color: rgba(34, 34, 96, 1) !important;
         i{
-            color: rgba(34, 34, 96, 0.6) !important;
+            color: rgba(34, 34, 96, 1) !important;
         }
         &::before{
             content: "";
@@ -110,11 +105,11 @@ width: 374px;
             left: 0;
             top: 0;
             width: 4px;
+            height: 100%;
             background: #222260;
             border-radius: 0 10px 10px 0;
         }
-        
     }
-    
 `;
-export default Navigation;
+
+export default Navigation

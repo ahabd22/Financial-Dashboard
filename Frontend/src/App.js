@@ -5,7 +5,7 @@ import {MainLayout} from './styles/Layouts'
 import Orb from './components/Orb/Orb'
 import Navigation from './components/Navigation/Navigation'
 import Dashboard from './components/Dashboard/Dashboard';
-import Income from './components/Incomes/Income'
+import Income from './components/Income/Income'
 import Expenses from './components/Expenses/Expenses';
 import { useGlobalContext } from './context/globalContext';
 
