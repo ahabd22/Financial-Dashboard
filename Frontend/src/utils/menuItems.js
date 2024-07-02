@@ -25,4 +25,10 @@ export const menuItems = [
         icon: expenses,
         link: "/dashboard",
     },
+    {
+        id: 5,
+        title: 'Stock Data',
+        icon: trend,
+        link: '/stock-data'
+    }
 ]

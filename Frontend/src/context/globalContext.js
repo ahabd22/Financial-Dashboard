@@ -86,9 +86,24 @@ export const GlobalProvider = ({children}) => {
         return history.slice(0, 3)
     }
 
+    const getStockData = async () => {
+        try {
+            const response = await axios.get(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&apikey=LKYKNZ4M7BT7S2GC`)
+            const timeSeriesData = response.data['Time Series (Daily)']
+            const formattedData = Object.entries(timeSeriesData).map(([date, values]) => ({
+                date,
+                close: values['4. close']
+            })).reverse().slice(0, 30) // Get last 30 days of data
+            return formattedData
+        } catch (error) {
+            console.error('Error fetching stock data:', error)
+        }
+    }
+
 
     return (
         <GlobalContext.Provider value={{
+            getStockData,
             addIncome,
             getIncomes,
             incomes,
