@@ -36,7 +36,10 @@ function Dashboard() {
                             </div>
                             <div className="balance">
                                 <h2>Total Balance</h2>
-                                <p>
+                                <p style={{
+                                    color: totalBalance() < 0 ? 'var(--color-delete)' : 'var(--color-green)',
+                                    opacity: 1 // Remove the opacity if you want it to be fully opaque
+                                }}>
                                     {dollar} {totalBalance()}
                                 </p>
                             </div>
