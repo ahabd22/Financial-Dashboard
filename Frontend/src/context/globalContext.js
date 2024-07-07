@@ -88,17 +88,20 @@ export const GlobalProvider = ({children}) => {
 
     const getStockData = async () => {
         try {
-            const response = await axios.get(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&apikey=LKYKNZ4M7BT7S2GC`)
-            const timeSeriesData = response.data['Time Series (Daily)']
-            const formattedData = Object.entries(timeSeriesData).map(([date, values]) => ({
-                date,
-                close: values['4. close']
-            })).reverse().slice(0, 30) // Get last 30 days of data
-            return formattedData
+            const response = await axios.get(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&apikey=YOUR_API_KEY`);
+            const timeSeriesData = response.data['Time Series (Daily)'];
+            const formattedData = Object.entries(timeSeriesData)
+                .map(([date, values]) => ({
+                    date,
+                    close: parseFloat(values['4. close'])
+                }))
+                .slice(0, 30); // Get the last 30 days of data
+
+            return formattedData;
         } catch (error) {
-            console.error('Error fetching stock data:', error)
+            console.error('Error fetching stock data:', error);
         }
-    }
+    };
 
 
     return (

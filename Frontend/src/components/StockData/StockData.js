@@ -4,7 +4,6 @@ import { useGlobalContext } from '../../context/globalContext'
 import { InnerLayout } from '../../styles/Layouts'
 import Chart from 'react-apexcharts'
 import Button from '../Button/Button'
-import { refresh } from '../../utils/Icons'
 
 function StockData() {
     const { getStockData } = useGlobalContext()
@@ -28,14 +27,18 @@ function StockData() {
                 id: 'stock-data'
             },
             xaxis: {
-                categories: stockData.map(item => item.date)
+                categories: stockData.map(item => item.date).reverse(),
+                labels: {
+                    rotate: -45,
+                    rotateAlways: true
+                }
             }
         },
         series: [{
             name: 'Close Price',
-            data: stockData.map(item => parseFloat(item.close))
+            data: stockData.map(item => item.close).reverse()
         }]
-    }
+    };
 
     return (
         <StockDataStyled>
