@@ -8,12 +8,14 @@ import Button from '../Button/Button'
 function StockData() {
     const { getStockData } = useGlobalContext()
     const [stockData, setStockData] = useState([])
-    const [isLoading, setIsLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(true)
 
     const fetchStockData = async () => {
         setIsLoading(true)
         const data = await getStockData()
-        setStockData(data)
+        if (data) {
+            setStockData(data)
+        }
         setIsLoading(false)
     }
 
@@ -21,7 +23,7 @@ function StockData() {
         fetchStockData()
     }, [])
 
-    const chartData = {
+    const chartData = stockData.length > 0 ? {
         options: {
             chart: {
                 id: 'stock-data'
@@ -38,23 +40,29 @@ function StockData() {
             name: 'Close Price',
             data: stockData.map(item => item.close).reverse()
         }]
-    };
+    } : null;
 
     return (
         <StockDataStyled>
             <InnerLayout>
                 <h1>Stock Data</h1>
                 <div className="stock-content">
-                    <div className="chart-con">
-                        <Chart
-                            options={chartData.options}
-                            series={chartData.series}
-                            type="line"
-                            height={400}
-                        />
-                    </div>
+                    {isLoading ? (
+                        <p>Loading...</p>
+                    ) : stockData.length > 0 ? (
+                        <div className="chart-con">
+                            <Chart
+                                options={chartData.options}
+                                series={chartData.series}
+                                type="line"
+                                height={400}
+                            />
+                        </div>
+                    ) : (
+                        <p>No data available</p>
+                    )}
                     <div className="refresh-btn">
-                        <Button 
+                        <Button
                             name={'Refresh Data'}
                             bPad={'.8rem 1.6rem'}
                             bRad={'30px'}
@@ -63,7 +71,6 @@ function StockData() {
                             onClick={fetchStockData}
                         />
                     </div>
-                    {isLoading && <p>Loading...</p>}
                 </div>
             </InnerLayout>
         </StockDataStyled>
