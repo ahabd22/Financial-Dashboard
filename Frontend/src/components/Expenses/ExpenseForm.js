@@ -6,7 +6,6 @@ import { useGlobalContext } from '../../context/globalContext';
 import Button from '../Button/Button';
 import { plus } from '../../utils/Icons';
 
-
 function ExpenseForm() {
     const {addExpense, error, setError} = useGlobalContext()
     const [inputState, setInputState] = useState({
@@ -17,7 +16,7 @@ function ExpenseForm() {
         description: '',
     })
 
-    const { title, amount, date, category,description } = inputState;
+    const { title, amount, date, category, description } = inputState;
 
     const handleInput = name => e => {
         setInputState({...inputState, [name]: e.target.value})
@@ -40,24 +39,25 @@ function ExpenseForm() {
         <ExpenseFormStyled onSubmit={handleSubmit}>
             {error && <p className='error'>{error}</p>}
             <div className="input-control">
-                <input 
-                    type="text" 
+                <input
+                    type="text"
                     value={title}
-                    name={'title'} 
+                    name={'title'}
                     placeholder="Expense Title"
                     onChange={handleInput('title')}
                 />
             </div>
             <div className="input-control">
-                <input value={amount}  
-                    type="text" 
-                    name={'amount'} 
+                <input
+                    value={amount}
+                    type="text"
+                    name={'amount'}
                     placeholder={'Expense Amount'}
-                    onChange={handleInput('amount')} 
+                    onChange={handleInput('amount')}
                 />
             </div>
             <div className="input-control">
-                <DatePicker 
+                <DatePicker
                     id='date'
                     placeholderText='Enter A Date'
                     selected={date}
@@ -75,21 +75,21 @@ function ExpenseForm() {
                     <option value="health">Health</option>
                     <option value="subscriptions">Subscriptions</option>
                     <option value="takeaways">Takeaways</option>
-                    <option value="clothing">Clothing</option>  
-                    <option value="travelling">Travelling</option>  
-                    <option value="other">Other</option>  
+                    <option value="clothing">Clothing</option>
+                    <option value="travelling">Travelling</option>
+                    <option value="other">Other</option>
                 </select>
             </div>
             <div className="input-control">
-                <textarea name="description" value={description} placeholder='Add A Reference' id="description" cols="30" rows="4" onChange={handleInput('description')}></textarea>
+                <textarea name="description" value={description} placeholder='Description' id="description" cols="30" rows="4" onChange={handleInput('description')}></textarea>
             </div>
             <div className="submit-btn">
-                <Button 
+                <Button
                     name={'Add Expense'}
                     icon={plus}
                     bPad={'.8rem 1.6rem'}
                     bRad={'30px'}
-                    bg={'var(--color-accent'}
+                    bg={'#3498db'}
                     color={'#fff'}
                 />
             </div>
@@ -97,51 +97,48 @@ function ExpenseForm() {
     )
 }
 
-
 const ExpenseFormStyled = styled.form`
     display: flex;
     flex-direction: column;
     gap: 2rem;
-    input, textarea, select{
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0px 1px 15px rgba(52, 73, 94, 0.1);
+
+    input, textarea, select {
         font-family: inherit;
         font-size: inherit;
         outline: none;
-        border: none;
-        padding: .5rem 1rem;
+        padding: .8rem 1rem;
         border-radius: 5px;
-        border: 2px solid #fff;
-        background: transparent;
+        border: 2px solid #34495e;
+        background: white;
         resize: none;
-        box-shadow: 0px 1px 15px rgba(0, 0, 0, 0.06);
-        color: rgba(34, 34, 96, 0.9);
-        &::placeholder{
-            color: rgba(34, 34, 96, 0.4);
+        color: #2c3e50;
+
+        &::placeholder {
+            color: #7f8c8d;
         }
     }
-    .input-control{
-        input{
-            width: 100%;
+    
+
+    .selects select {
+        color: #7f8c8d;
+
+        &:focus, &:active {
+            color: #2c3e50;
         }
     }
 
-    .selects{
-        display: flex;
-        justify-content: flex-end;
-        select{
-            color: rgba(34, 34, 96, 0.4);
-            &:focus, &:active{
-                color: rgba(34, 34, 96, 1);
-            }
-        }
-    }
+    .submit-btn button {
+        background: #3498db !important;
+        color: white;
 
-    .submit-btn{
-        button{
-            box-shadow: 0px 1px 15px rgba(0, 0, 0, 0.06);
-            &:hover{
-                background: var(--color-green) !important;
-            }
+        &:hover {
+            background: #2980b9 !important;
         }
     }
 `;
+
 export default ExpenseForm

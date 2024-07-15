@@ -15,8 +15,8 @@ function Expenses() {
     return (
         <ExpenseStyled>
             <InnerLayout>
-                <h1>Expenses</h1>
-                <h2 className="total-income">Total Expense: <span>${totalExpenses()}</span></h2>
+                <StyledTitle>Add new Expense :(</StyledTitle>
+                <h2 className="total-expense">Total Expense: <span>${totalExpenses()}</span></h2>
                 <div className="income-content">
                     <div className="form-container">
                         <ExpenseForm />
@@ -34,7 +34,7 @@ function Expenses() {
                                 date={date} 
                                 type={type}
                                 category={category} 
-                                indicatorColor="var(--color-green)"
+                                indicatorColor="var(--color-red)"
                                 deleteItem={deleteExpense}
                             />
                         })}
@@ -48,22 +48,23 @@ function Expenses() {
 const ExpenseStyled = styled.div`
     display: flex;
     overflow: auto;
-    .total-income{
+    .total-expense {
         display: flex;
         justify-content: center;
         align-items: center;
-        background: #FCF6F9;
-        border: 2px solid #FFFFFF;
-        box-shadow: 0px 1px 15px rgba(0, 0, 0, 0.06);
+        background: white;
+        border: 2px solid #34495e;
+        box-shadow: 0px 1px 15px rgba(52, 73, 94, 0.1);
         border-radius: 20px;
         padding: 1rem;
         margin: 1rem 0;
         font-size: 2rem;
         gap: .5rem;
-        span{
+
+        span {
             font-size: 2.5rem;
             font-weight: 800;
-            color: var(--color-green);
+            color: red;
         }
     }
     .income-content{
@@ -72,6 +73,30 @@ const ExpenseStyled = styled.div`
         .incomes{
             flex: 1;
         }
+    }
+`;
+
+const StyledTitle = styled.h1`
+    color: #2c3e50;
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 3px solid #2c3e50;
+    position: relative;
+
+    &::after {
+        content: '';
+        position: absolute;
+        bottom: -3px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 50px;
+        height: 3px;
+        background-color: #2c3e50;
     }
 `;
 

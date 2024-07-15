@@ -81,14 +81,14 @@ function IncomeItem({
                         </p>
                     </div>
                     <div className="btn-con">
-                        <Button 
+                        <Button
                             icon={trash}
                             bPad={'1rem'}
                             bRad={'50%'}
-                            bg={'var(--primary-color'}
+                            bg={'#2c3e50'}
                             color={'#fff'}
                             iColor={'#fff'}
-                            hColor={'var(--color-green)'}
+                            hColor={'#34495e'}
                             onClick={() => deleteItem(id)}
                         />
                     </div>
@@ -99,9 +99,9 @@ function IncomeItem({
 }
 
 const IncomeItemStyled = styled.div`
-    background: #FCF6F9;
-    border: 2px solid #FFFFFF;
-    box-shadow: 0px 1px 15px rgba(0, 0, 0, 0.06);
+    background: white;
+    border: 2px solid #34495e;
+    box-shadow: 0px 1px 15px rgba(52, 73, 94, 0.1);
     border-radius: 20px;
     padding: 1rem;
     margin-bottom: 1rem;
@@ -109,31 +109,35 @@ const IncomeItemStyled = styled.div`
     align-items: center;
     gap: 1rem;
     width: 100%;
-    color: #222260;
-    .icon{
+    color: #2c3e50;
+
+    .icon {
         width: 80px;
         height: 80px;
         border-radius: 20px;
-        background: #F5F5F5;
+        background: #ecf0f1;
         display: flex;
         align-items: center;
         justify-content: center;
-        border: 2px solid #FFFFFF;
-        i{
+        border: 2px solid #34495e;
+        i {
             font-size: 2.6rem;
+            color: #2c3e50;
         }
     }
 
-    .content{
+    .content {
         flex: 1;
         display: flex;
         flex-direction: column;
         gap: .2rem;
-        h5{
+
+        h5 {
             font-size: 1.3rem;
             padding-left: 2rem;
             position: relative;
-            &::before{
+            color: #2c3e50;
+            &::before {
                 content: '';
                 position: absolute;
                 left: 0;
@@ -146,19 +150,21 @@ const IncomeItemStyled = styled.div`
             }
         }
 
-        .inner-content{
+        .inner-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            .text{
+
+            .text {
                 display: flex;
                 align-items: center;
                 gap: 1.5rem;
-                p{
+
+                p {
                     display: flex;
                     align-items: center;
                     gap: 0.5rem;
-                    color: var(--primary-color);
+                    color: #34495e;
                     opacity: 0.8;
                 }
             }

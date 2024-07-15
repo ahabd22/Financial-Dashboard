@@ -1,115 +1,151 @@
-import React, { useState } from 'react'
-import styled from 'styled-components'
-import avatar from '../../img/Avatar.jpg'
-import { signout } from '../../utils/Icons'
-import { menuItems } from '../../utils/menuItems'
+import React from 'react';
+import styled from 'styled-components';
+import avatar from '../../img/Avatar.jpg';
+import { signout } from '../../utils/Icons';
+import { menuItems } from '../../utils/menuItems';
 
-function Navigation({active, setActive}) {
-    
+function Navigation({ active, setActive }) {
     return (
         <NavStyled>
-            <div className="user-con">
-                <img src={avatar} alt="" />
-                <div className="text">
-                    <h2>Kasper</h2>
-                    <p>Your Money</p>
-                </div>
-            </div>
-            <ul className="menu-items">
-                {menuItems.map((item) => {
-                    return <li
+            <UserInfo>
+                <Avatar src={avatar} alt="User Avatar" />
+                <UserText>
+                    <UserName>Kasper</UserName>
+                    <UserSubtext>Your Finances</UserSubtext>
+                </UserText>
+            </UserInfo>
+            <MenuList>
+                {menuItems.map((item) => (
+                    <MenuItem
                         key={item.id}
                         onClick={() => setActive(item.id)}
-                        className={active === item.id ? 'active': ''}
+                        active={active === item.id}
                     >
-                        {item.icon}
-                        <span>{item.title}</span>
-                    </li>
-                })}
-            </ul>
-            <div className="bottom-nav">
-                <li>
-                    {signout} Sign Out
-                </li>
-            </div>
+                        <MenuIcon>{item.icon}</MenuIcon>
+                        <MenuText>{item.title}</MenuText>
+                    </MenuItem>
+                ))}
+            </MenuList>
+            <BottomNav>
+                <SignOutButton>
+                    <SignOutIcon>{signout}</SignOutIcon>
+                    <span>Sign Out</span>
+                </SignOutButton>
+            </BottomNav>
         </NavStyled>
-    )
+    );
 }
 
 const NavStyled = styled.nav`
-    padding: 2rem 1.5rem;
-    width: 374px;
-    height: 100%;
-    background: rgba(252, 246, 249, 0.78);
-    border: 3px solid #FFFFFF;
-    backdrop-filter: blur(4.5px);
-    border-radius: 32px;
+    width: 275px;
+    height: 100vh;
+    background: linear-gradient(to bottom, #2c3e50, #34495e);
+    color: #ecf0f1;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    gap: 2rem;
-    .user-con{
-        height: 100px;
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        img{
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            object-fit: cover;
-            background: #fcf6f9;
-            border: 2px solid #FFFFFF;
-            padding: .2rem;
-            box-shadow: 0px 1px 17px rgba(0, 0, 0, 0.06);
-        }
-        h2{
-            color: rgba(34, 34, 96, 1);
-        }
-        p{
-            color: rgba(34, 34, 96, .6);
-        }
-    }
+    font-family: 'Roboto', sans-serif;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 1000;
+    overflow-y: auto;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+`;
 
-    .menu-items{
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        li{
-            display: grid;
-            grid-template-columns: 40px auto;
-            align-items: center;
-            margin: .6rem 0;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all .4s ease-in-out;
-            color: rgba(34, 34, 96, .6);
-            padding-left: 1rem;
-            position: relative;
-            i{
-                color: rgba(34, 34, 96, 0.6);
-                font-size: 1.4rem;
-                transition: all .4s ease-in-out;
-            }
-        }
-    }
+const UserInfo = styled.div`
+    display: flex;
+    align-items: center;
+    padding: 30px 20px;
+    background: rgba(52, 73, 94, 0.5);
+    border-bottom: 1px solid rgba(236, 240, 241, 0.1);
+`;
 
-    .active{
-        color: rgba(34, 34, 96, 1) !important;
-        i{
-            color: rgba(34, 34, 96, 1) !important;
-        }
-        &::before{
-            content: "";
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 4px;
-            height: 100%;
-            background: #222260;
-            border-radius: 0 10px 10px 0;
-        }
+const Avatar = styled.img`
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 15px;
+    border: 2px solid #ecf0f1;
+    box-shadow: 0 0 10px rgba(236, 240, 241, 0.3);
+`;
+
+const UserText = styled.div`
+    display: flex;
+    flex-direction: column;
+`;
+
+const UserName = styled.h2`
+    font-size: 18px;
+    margin: 0;
+    font-weight: 600;
+`;
+
+const UserSubtext = styled.p`
+    font-size: 14px;
+    margin: 5px 0 0;
+    opacity: 0.7;
+`;
+
+const MenuList = styled.ul`
+    list-style-type: none;
+    padding: 20px 0;
+    margin: 0;
+`;
+
+const MenuItem = styled.li`
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-left: 4px solid transparent;
+    background: ${props => props.active ? 'rgba(236, 240, 241, 0.1)' : 'transparent'};
+    border-left-color: ${props => props.active ? '#3498db' : 'transparent'};
+
+    &:hover {
+        background: rgba(236, 240, 241, 0.05);
     }
 `;
 
-export default Navigation
+const MenuIcon = styled.span`
+    margin-right: 15px;
+    font-size: 20px;
+    width: 20px;
+    display: flex;
+    justify-content: center;
+    color: ${props => props.active ? '#3498db' : 'inherit'};
+`;
+
+const MenuText = styled.span`
+    font-size: 16px;
+    font-weight: ${props => props.active ? '600' : '400'};
+`;
+
+const BottomNav = styled.div`
+    margin-top: auto;
+    padding: 20px;
+    border-top: 1px solid rgba(236, 240, 241, 0.1);
+`;
+
+const SignOutButton = styled.button`
+    display: flex;
+    align-items: center;
+    background: none;
+    border: none;
+    color: #ecf0f1;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 10px;
+    transition: all 0.3s ease;
+
+    &:hover {
+        color: #e74c3c;
+    }
+`;
+
+const SignOutIcon = styled.span`
+    margin-right: 10px;
+    font-size: 18px;
+`;
+
+export default Navigation;

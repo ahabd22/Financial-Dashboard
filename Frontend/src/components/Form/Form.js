@@ -44,7 +44,7 @@ function Form() {
                     type="text" 
                     value={title}
                     name={'title'} 
-                    placeholder="Salary Title"
+                    placeholder="Income Title"
                     onChange={handleInput('title')}
                 />
             </div>
@@ -52,7 +52,7 @@ function Form() {
                 <input value={amount}  
                     type="text" 
                     name={'amount'} 
-                    placeholder={'Salary Amount'}
+                    placeholder={'Income Amount'}
                     onChange={handleInput('amount')} 
                 />
             </div>
@@ -81,7 +81,7 @@ function Form() {
                 </select>
             </div>
             <div className="input-control">
-                <textarea name="description" value={description} placeholder='Add A Reference' id="description" cols="30" rows="4" onChange={handleInput('description')}></textarea>
+                <textarea name="description" value={description} placeholder='Description' id="description" cols="30" rows="4" onChange={handleInput('description')}></textarea>
             </div>
             <div className="submit-btn">
                 <Button 
@@ -102,45 +102,41 @@ const FormStyled = styled.form`
     display: flex;
     flex-direction: column;
     gap: 2rem;
-    input, textarea, select{
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0px 1px 15px rgba(52, 73, 94, 0.1);
+
+    input, textarea, select {
         font-family: inherit;
         font-size: inherit;
         outline: none;
-        border: none;
-        padding: .5rem 1rem;
+        padding: .8rem 1rem;
         border-radius: 5px;
-        border: 2px solid #fff;
-        background: transparent;
+        border: 2px solid #34495e;
+        background: white;
         resize: none;
-        box-shadow: 0px 1px 15px rgba(0, 0, 0, 0.06);
-        color: rgba(34, 34, 96, 0.9);
-        &::placeholder{
-            color: rgba(34, 34, 96, 0.4);
-        }
-    }
-    .input-control{
-        input{
-            width: 100%;
+        color: #2c3e50;
+
+        &::placeholder {
+            color: #7f8c8d;
         }
     }
 
-    .selects{
-        display: flex;
-        justify-content: flex-end;
-        select{
-            color: rgba(34, 34, 96, 0.4);
-            &:focus, &:active{
-                color: rgba(34, 34, 96, 1);
-            }
+    .selects select {
+        color: #7f8c8d;
+
+        &:focus, &:active {
+            color: #2c3e50;
         }
     }
 
-    .submit-btn{
-        button{
-            box-shadow: 0px 1px 15px rgba(0, 0, 0, 0.06);
-            &:hover{
-                background: var(--color-green) !important;
-            }
+    .submit-btn button {
+        background: #3498db !important;
+        color: white;
+
+        &:hover {
+            background: #2980b9 !important;
         }
     }
 `;
