@@ -86,9 +86,9 @@ export const GlobalProvider = ({children}) => {
         return history.slice(0, 3)
     }
 
-    const getStockData = async () => {
+    const getStockData = async (symbol) => {
         try {
-            const response = await axios.get(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&apikey=LKYKNZ4M7BT7S2GC`);
+            const response = await axios.get(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${symbol}&apikey=LKYKNZ4M7BT7S2GC`);
             const timeSeriesData = response.data['Time Series (Daily)'];
             const formattedData = Object.entries(timeSeriesData)
                 .map(([date, values]) => ({

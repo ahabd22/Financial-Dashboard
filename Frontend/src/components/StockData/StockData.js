@@ -9,10 +9,11 @@ function StockData() {
     const { getStockData } = useGlobalContext()
     const [stockData, setStockData] = useState([])
     const [isLoading, setIsLoading] = useState(true)
+    const [ticker, setTicker] = useState('IBM')
 
     const fetchStockData = async () => {
         setIsLoading(true)
-        const data = await getStockData()
+        const data = await getStockData(ticker)
         if (data) {
             setStockData(data)
         }
@@ -21,7 +22,11 @@ function StockData() {
 
     useEffect(() => {
         fetchStockData()
-    }, [])
+    }, [ticker])
+
+    const handleTickerChange = (e) => {
+        setTicker(e.target.value)
+    }
 
     const chartData = stockData.length > 0 ? {
         options: {
@@ -42,11 +47,22 @@ function StockData() {
         }]
     } : null;
 
+
     return (
         <StockDataStyled>
             <InnerLayout>
                 <h1>Stock Data</h1>
                 <div className="stock-content">
+                    <div className="ticker-select">
+                        <label htmlFor="ticker">Select Stock Ticker: </label>
+                        <select id="ticker" value={ticker} onChange={handleTickerChange}>
+                            <option value="IBM">IBM</option>
+                            <option value="AAPL">Apple</option>
+                            <option value="GOOGL">Google</option>
+                            <option value="MSFT">Microsoft</option>
+                            <option value="AMZN">Amazon</option>
+                        </select>
+                    </div>
                     {isLoading ? (
                         <p>Loading...</p>
                     ) : stockData.length > 0 ? (
@@ -85,6 +101,16 @@ const StockDataStyled = styled.div`
     }
     .chart-con {
         height: 400px;
+    }
+    .ticker-select {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+    select {
+        padding: 0.5rem;
+        border-radius: 5px;
+        border: 1px solid var(--color-accent);
     }
 `
 

@@ -8,7 +8,7 @@ import { plus } from '../../utils/Icons';
 
 
 function Form() {
-    const {addIncome, getIncomes, error, setError} = useGlobalContext()
+    const {addIncome, error, setError} = useGlobalContext()
     const [inputState, setInputState] = useState({
         title: '',
         amount: '',
@@ -105,7 +105,7 @@ const FormStyled = styled.form`
     background: white;
     border-radius: 20px;
     padding: 2rem;
-    box-shadow: 0px 1px 15px rgba(52, 73, 94, 0.1);
+    box-shadow: 0 1px 15px rgba(52, 73, 94, 0.1);
 
     input, textarea, select {
         font-family: inherit;
