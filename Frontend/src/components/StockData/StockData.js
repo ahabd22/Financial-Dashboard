@@ -51,7 +51,7 @@ function StockData() {
     return (
         <StockDataStyled>
             <InnerLayout>
-                <h1>Stock Data</h1>
+                <StyledTitle>Stock Chart</StyledTitle>
                 <div className="stock-content">
                     <div className="ticker-select">
                         <label htmlFor="ticker">Select Stock Ticker: </label>
@@ -110,8 +110,42 @@ const StockDataStyled = styled.div`
     select {
         padding: 0.5rem;
         border-radius: 5px;
-        border: 1px solid var(--color-accent);
+        border: 1px solid;
+        color: navy;
     }
+    .refresh-btn button {
+        background: #3498db !important;
+        color: white;
+
+        &:hover {
+            background: #2980b9 !important;
+        }
+    }
+    
 `
+
+const StyledTitle = styled.h1`
+    color: #2c3e50;
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 3px solid #2c3e50;
+    position: relative;
+
+    &::after {
+        content: '';
+        position: absolute;
+        bottom: -3px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 50px;
+        height: 3px;
+        background-color: #2c3e50;
+    }
+`;
 
 export default StockData
