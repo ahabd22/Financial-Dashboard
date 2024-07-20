@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { useGlobalContext } from '../../context/globalContext';
 import History from '../../History/History';
@@ -8,48 +8,64 @@ import Chart from '../Chart/Chart';
 
 function Dashboard() {
     const {totalExpenses, incomes, expenses, totalIncome, totalBalance, getIncomes, getExpenses } = useGlobalContext()
+    const [error, setError] = useState(null)
 
     useEffect(() => {
-        getIncomes()
-        getExpenses()
+        const fetchData = async () => {
+            try {
+                await getIncomes()
+                await getExpenses()
+            } catch (err) {
+                setError("Failed to fetch data. Please try again later.")
+            }
+        }
+        fetchData()
     }, [])
+
+    const getMinMaxAmount = (items) => {
+        if (items.length === 0) return { min: 0, max: 0 }
+        const amounts = items.map(item => item.amount)
+        return {
+            min: Math.min(...amounts),
+            max: Math.max(...amounts)
+        }
+    }
+
+    const { min: minIncome, max: maxIncome } = getMinMaxAmount(incomes)
+    const { min: minExpense, max: maxExpense } = getMinMaxAmount(expenses)
+
+    if (error) {
+        return <div>Error: {error}</div>
+    }
 
     return (
         <DashboardStyled>
             <InnerLayout>
                 <StyledTitle>Overview</StyledTitle>
-                <div className="stats-con">
-                    <div className="chart-con">
-                        <Chart />
-                    </div>
-                    <div className="history-con">
-                        <History />
-                        <h2 className="salary-title">Min <span>Income</span>Max</h2>
-                        <div className="salary-item">
-                            <p>
-                                ${Math.min(...incomes.map(item => item.amount))}
-                            </p>
-                            <p>
-                                ${Math.max(...incomes.map(item => item.amount))}
-                            </p>
+                <ContentWrapper>
+                    <div className="stats-con">
+                        <div className="chart-con">
+                            <Chart />
                         </div>
-                        <h2 className="salary-title">Min <span>Expense</span>Max</h2>
-                        <div className="salary-item">
-                            <p>
-                                ${Math.min(...expenses.map(item => item.amount))}
-                            </p>
-                            <p>
-                                ${Math.max(...expenses.map(item => item.amount))}
-                            </p>
+                        <div className="history-con">
+                            <History />
+                            <h2 className="salary-title">Min <span>Income</span>Max</h2>
+                            <div className="salary-item">
+                                <p>${minIncome.toFixed(2)}</p>
+                                <p>${maxIncome.toFixed(2)}</p>
+                            </div>
+                            <h2 className="salary-title">Min <span>Expense</span>Max</h2>
+                            <div className="salary-item">
+                                <p>${minExpense.toFixed(2)}</p>
+                                <p>${maxExpense.toFixed(2)}</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div className="amount-con">
+                </ContentWrapper>
+                <AmountContainer>
                     <div className="income">
                         <h2>Total Income</h2>
-                        <p>
-                            {dollar} {totalIncome()}
-                        </p>
+                        <p>{dollar} {totalIncome().toFixed(2)}</p>
                     </div>
                     <div className="balance">
                         <h2>Total Balance</h2>
@@ -57,31 +73,29 @@ function Dashboard() {
                             color: totalBalance() < 0 ? 'var(--color-delete)' : 'var(--color-green)',
                             opacity: 1
                         }}>
-                            {dollar} {totalBalance()}
+                            {dollar} {totalBalance().toFixed(2)}
                         </p>
                     </div>
                     <div className="expense">
                         <h2>Total Expense</h2>
-                        <p>
-                            {dollar} {totalExpenses()}
-                        </p>
+                        <p>{dollar} {totalExpenses().toFixed(2)}</p>
                     </div>
-                </div>
+                </AmountContainer>
             </InnerLayout>
         </DashboardStyled>
     )
 }
 
 const DashboardStyled = styled.div`
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
+    position: relative;
+    padding-bottom: 200px; // Add padding to make room for AmountContainer
+`;
 
+const ContentWrapper = styled.div`
     .stats-con {
         display: grid;
         grid-template-columns: repeat(5, 1fr);
         gap: 2rem;
-        flex-grow: 1;
 
         .chart-con {
             grid-column: 1 / 4;
@@ -119,51 +133,53 @@ const DashboardStyled = styled.div`
             }
         }
     }
-
-    .amount-con {
-        display: flex;
-        justify-content: space-between;
-        margin-top: auto;
-        padding: 2rem 0;
-
-        .income, .expense, .balance {
-            flex: 1;
-            background: white;
-            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
-            border-radius: 16px;
-            padding: 1.5rem;
-            transition: transform 0.2s, box-shadow 0.2s;
-            text-align: center;
-
-            &:hover {
-                transform: translateY(-5px);
-                box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.15);
-            }
-
-            h2 {
-                margin-bottom: 0.5rem;
-            }
-
-            p {
-                font-size: 2.5rem;
-                font-weight: 700;
-            }
-        }
-
-        .income p {
-            color: green;
-        }
-
-        .expense p {
-            color: red;
-        }
-
-        .balance {
-            margin: 0 2rem;
-        }
-    }
 `;
 
+const AmountContainer = styled.div`
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    padding: 2rem;
+
+    .income, .expense, .balance {
+        flex: 1;
+        background: white;
+        box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+        border-radius: 16px;
+        padding: 1.5rem;
+        transition: transform 0.2s, box-shadow 0.2s;
+        text-align: center;
+
+        &:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        h2 {
+            margin-bottom: 0.5rem;
+        }
+
+        p {
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+    }
+
+    .income p {
+        color: green;
+    }
+
+    .expense p {
+        color: red;
+    }
+
+    .balance {
+        margin: 0 2rem;
+    }
+`;
 
 const StyledTitle = styled.h1`
     color: #2c3e50;

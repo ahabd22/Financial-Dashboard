@@ -1,90 +1,85 @@
-import React, { useContext, useState } from "react"
+import React, { useContext, useState, useEffect, useCallback } from "react"
 import axios from 'axios'
 
-
 const BASE_URL = "http://localhost:5000/api/v1/";
-
 
 const GlobalContext = React.createContext()
 
 export const GlobalProvider = ({children}) => {
-
     const [incomes, setIncomes] = useState([])
     const [expenses, setExpenses] = useState([])
     const [error, setError] = useState(null)
 
-    //calculate incomes
-    const addIncome = async (income) => {
-        const response = await axios.post(`${BASE_URL}add-income`, income)
-            .catch((err) =>{
-                setError(err.response.data.message)
-            })
-        getIncomes()
-    }
+    const fetchData = useCallback(async (url, setStateFunc) => {
+        try {
+            const response = await axios.get(url)
+            setStateFunc(response.data)
+        } catch (err) {
+            setError(err.response?.data?.message || 'An error occurred')
+        }
+    }, [])
 
-    const getIncomes = async () => {
-        const response = await axios.get(`${BASE_URL}get-incomes`)
-        setIncomes(response.data)
-        console.log(response.data)
+    const getIncomes = useCallback(() => fetchData(`${BASE_URL}get-incomes`, setIncomes), [fetchData])
+    const getExpenses = useCallback(() => fetchData(`${BASE_URL}get-expenses`, setExpenses), [fetchData])
+
+    useEffect(() => {
+        getIncomes()
+        getExpenses()
+    }, [getIncomes, getExpenses])
+
+    const addIncome = async (income) => {
+        try {
+            await axios.post(`${BASE_URL}add-income`, income)
+            getIncomes()
+        } catch (err) {
+            setError(err.response?.data?.message || 'An error occurred')
+        }
     }
 
     const deleteIncome = async (id) => {
-        const res  = await axios.delete(`${BASE_URL}delete-income/${id}`)
-        getIncomes()
+        try {
+            await axios.delete(`${BASE_URL}delete-income/${id}`)
+            getIncomes()
+        } catch (err) {
+            setError(err.response?.data?.message || 'An error occurred')
+        }
     }
 
-    const totalIncome = () => {
-        let totalIncome = 0;
-        incomes.forEach((income) =>{
-            totalIncome = totalIncome + income.amount
-        })
+    const totalIncome = useCallback(() => {
+        return incomes.reduce((total, income) => total + Number(income.amount), 0);
+    }, [incomes])
 
-        return totalIncome;
-    }
-
-
-    //calculate incomes
-    const addExpense = async (income) => {
-        const response = await axios.post(`${BASE_URL}add-expense`, income)
-            .catch((err) =>{
-                setError(err.response.data.message)
-            })
-        getExpenses()
-    }
-
-    const getExpenses = async () => {
-        const response = await axios.get(`${BASE_URL}get-expenses`)
-        setExpenses(response.data)
-        console.log(response.data)
+    const addExpense = async (expense) => {
+        try {
+            await axios.post(`${BASE_URL}add-expense`, expense)
+            getExpenses()
+        } catch (err) {
+            setError(err.response?.data?.message || 'An error occurred')
+        }
     }
 
     const deleteExpense = async (id) => {
-        const res  = await axios.delete(`${BASE_URL}delete-expense/${id}`)
-        getExpenses()
+        try {
+            await axios.delete(`${BASE_URL}delete-expense/${id}`)
+            getExpenses()
+        } catch (err) {
+            setError(err.response?.data?.message || 'An error occurred')
+        }
     }
 
-    const totalExpenses = () => {
-        let totalIncome = 0;
-        expenses.forEach((income) =>{
-            totalIncome = totalIncome + income.amount
-        })
+    const totalExpenses = useCallback(() => {
+        return expenses.reduce((total, expense) => total + Number(expense.amount), 0);
+    }, [expenses])
 
-        return totalIncome;
-    }
-
-
-    const totalBalance = () => {
+    const totalBalance = useCallback(() => {
         return totalIncome() - totalExpenses()
-    }
+    }, [totalIncome, totalExpenses])
 
-    const transactionHistory = () => {
+    const transactionHistory = useCallback(() => {
         const history = [...incomes, ...expenses]
-        history.sort((a, b) => {
-            return new Date(b.createdAt) - new Date(a.createdAt)
-        })
-
+        history.sort((a, b) => new Date(b.date) - new Date(a.date))
         return history.slice(0, 3)
-    }
+    }, [incomes, expenses])
 
     const getStockData = async (symbol) => {
         try {
@@ -95,14 +90,14 @@ export const GlobalProvider = ({children}) => {
                     date,
                     close: parseFloat(values['4. close'])
                 }))
-                .slice(0, 30); // Get the last 30 days of data
+                .slice(0, 30);
 
             return formattedData;
         } catch (error) {
             console.error('Error fetching stock data:', error);
+            setError('Error fetching stock data')
         }
     };
-
 
     return (
         <GlobalContext.Provider value={{
@@ -127,6 +122,6 @@ export const GlobalProvider = ({children}) => {
     )
 }
 
-export const useGlobalContext = () =>{
+export const useGlobalContext = () => {
     return useContext(GlobalContext)
 }

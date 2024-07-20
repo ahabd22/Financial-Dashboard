@@ -25,7 +25,21 @@ function ExpenseForm() {
 
     const handleSubmit = e => {
         e.preventDefault()
-        addExpense(inputState)
+        if (!title || !amount || !date || !category || !description) {
+            setError('All fields are required')
+            return
+        }
+        if (isNaN(amount) || amount <= 0) {
+            setError('Amount must be a positive number')
+            return
+        }
+        const formattedDate = date instanceof Date ? date.toISOString().split('T')[0] : ''
+        const expenseData = {
+            ...inputState,
+            amount: parseFloat(amount),
+            date: formattedDate
+        }
+        addExpense(expenseData)
         setInputState({
             title: '',
             amount: '',
@@ -50,10 +64,11 @@ function ExpenseForm() {
             <div className="input-control">
                 <input
                     value={amount}
-                    type="text"
+                    type="number"
                     name={'amount'}
                     placeholder={'Expense Amount'}
                     onChange={handleInput('amount')}
+                    step="0.01"
                 />
             </div>
             <div className="input-control">
@@ -121,7 +136,12 @@ const ExpenseFormStyled = styled.form`
             color: #7f8c8d;
         }
     }
-    
+
+    .error {
+        color: red;
+        font-size: 0.8rem;
+        margin-top: -1rem;
+    }
 
     .selects select {
         color: #7f8c8d;
