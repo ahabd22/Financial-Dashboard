@@ -42,25 +42,27 @@ function Dashboard() {
         <DashboardStyled>
             <InnerLayout>
                 <StyledTitle>Overview</StyledTitle>
-                <div className="stats-con">
-                    <div className="chart-con">
-                        <Chart />
-                    </div>
-                    <div className="history-con">
-                        <History />
-                        <h2 className="salary-title">Min <span>Income</span>Max</h2>
-                        <div className="salary-item">
-                            <p>${minIncome.toFixed(2)}</p>
-                            <p>${maxIncome.toFixed(2)}</p>
+                <ContentWrapper>
+                    <div className="stats-con">
+                        <div className="chart-con">
+                            <Chart />
                         </div>
-                        <h2 className="salary-title">Min <span>Expense</span>Max</h2>
-                        <div className="salary-item">
-                            <p>${minExpense.toFixed(2)}</p>
-                            <p>${maxExpense.toFixed(2)}</p>
+                        <div className="history-con">
+                            <History />
+                            <h2 className="salary-title">Min <span>Income</span>Max</h2>
+                            <div className="salary-item">
+                                <p>${minIncome.toFixed(2)}</p>
+                                <p>${maxIncome.toFixed(2)}</p>
+                            </div>
+                            <h2 className="salary-title">Min <span>Expense</span>Max</h2>
+                            <div className="salary-item">
+                                <p>${minExpense.toFixed(2)}</p>
+                                <p>${maxExpense.toFixed(2)}</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div className="amount-con">
+                </ContentWrapper>
+                <AmountContainer>
                     <div className="income">
                         <h2>Total Income</h2>
                         <p>{dollar} {totalIncome().toFixed(2)}</p>
@@ -78,22 +80,22 @@ function Dashboard() {
                         <h2>Total Expense</h2>
                         <p>{dollar} {totalExpenses().toFixed(2)}</p>
                     </div>
-                </div>
+                </AmountContainer>
             </InnerLayout>
         </DashboardStyled>
     )
 }
 
 const DashboardStyled = styled.div`
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
+    position: relative;
+    padding-bottom: 200px; // Add padding to make room for AmountContainer
+`;
 
+const ContentWrapper = styled.div`
     .stats-con {
         display: grid;
         grid-template-columns: repeat(5, 1fr);
         gap: 2rem;
-        flex-grow: 1;
 
         .chart-con {
             grid-column: 1 / 4;
@@ -131,48 +133,51 @@ const DashboardStyled = styled.div`
             }
         }
     }
+`;
 
-    .amount-con {
-        display: flex;
-        justify-content: space-between;
-        margin-top: auto;
-        padding: 2rem 0;
+const AmountContainer = styled.div`
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    padding: 2rem;
 
-        .income, .expense, .balance {
-            flex: 1;
-            background: white;
-            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
-            border-radius: 16px;
-            padding: 1.5rem;
-            transition: transform 0.2s, box-shadow 0.2s;
-            text-align: center;
+    .income, .expense, .balance {
+        flex: 1;
+        background: white;
+        box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+        border-radius: 16px;
+        padding: 1.5rem;
+        transition: transform 0.2s, box-shadow 0.2s;
+        text-align: center;
 
-            &:hover {
-                transform: translateY(-5px);
-                box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.15);
-            }
-
-            h2 {
-                margin-bottom: 0.5rem;
-            }
-
-            p {
-                font-size: 2.5rem;
-                font-weight: 700;
-            }
+        &:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.15);
         }
 
-        .income p {
-            color: green;
+        h2 {
+            margin-bottom: 0.5rem;
         }
 
-        .expense p {
-            color: red;
+        p {
+            font-size: 2.5rem;
+            font-weight: 700;
         }
+    }
 
-        .balance {
-            margin: 0 2rem;
-        }
+    .income p {
+        color: green;
+    }
+
+    .expense p {
+        color: red;
+    }
+
+    .balance {
+        margin: 0 2rem;
     }
 `;
 

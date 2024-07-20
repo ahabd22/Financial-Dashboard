@@ -87,7 +87,7 @@ const IncomeStyled = styled.div`
 
         span {
             font-size: 2.5rem;
-            font-weight: 800;
+            font-weight: 500;
             color: green;
         }
     }
