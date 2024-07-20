@@ -5,18 +5,17 @@ import { bitcoin, book, calender, card, circle, clothing, comment, dollar, food,
 import Button from '../Button/Button';
 
 function IncomeItem({
-    id,
-    title,
-    amount,
-    date,
-    category,
-    description,
-    deleteItem,
-    indicatorColor,
-    type
-}) {
-
-    const categoryIcon = () =>{
+                        id,
+                        title,
+                        amount,
+                        date,
+                        category,
+                        description,
+                        deleteItem,
+                        indicatorColor,
+                        type
+                    }) {
+    const categoryIcon = () => {
         switch(category) {
             case 'salary':
                 return money;
@@ -62,8 +61,6 @@ function IncomeItem({
         }
     }
 
-    console.log('type', type)
-
     return (
         <IncomeItemStyled indicator={indicatorColor}>
             <div className="icon">
@@ -73,11 +70,11 @@ function IncomeItem({
                 <h5>{title}</h5>
                 <div className="inner-content">
                     <div className="text">
-                        <p>{dollar} {amount}</p>
-                        <p>{calender} {dateFormat(date)}</p>
+                        <p>{dollar} {Number(amount).toFixed(2)}</p>
+                        <p>{calender} {date ? dateFormat(date) : 'N/A'}</p>
                         <p>
                             {comment}
-                            {description}
+                            {description || 'No description'}
                         </p>
                     </div>
                     <div className="btn-con">

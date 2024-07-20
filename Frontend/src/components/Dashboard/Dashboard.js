@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { useGlobalContext } from '../../context/globalContext';
 import History from '../../History/History';
@@ -8,11 +8,35 @@ import Chart from '../Chart/Chart';
 
 function Dashboard() {
     const {totalExpenses, incomes, expenses, totalIncome, totalBalance, getIncomes, getExpenses } = useGlobalContext()
+    const [error, setError] = useState(null)
 
     useEffect(() => {
-        getIncomes()
-        getExpenses()
+        const fetchData = async () => {
+            try {
+                await getIncomes()
+                await getExpenses()
+            } catch (err) {
+                setError("Failed to fetch data. Please try again later.")
+            }
+        }
+        fetchData()
     }, [])
+
+    const getMinMaxAmount = (items) => {
+        if (items.length === 0) return { min: 0, max: 0 }
+        const amounts = items.map(item => item.amount)
+        return {
+            min: Math.min(...amounts),
+            max: Math.max(...amounts)
+        }
+    }
+
+    const { min: minIncome, max: maxIncome } = getMinMaxAmount(incomes)
+    const { min: minExpense, max: maxExpense } = getMinMaxAmount(expenses)
+
+    if (error) {
+        return <div>Error: {error}</div>
+    }
 
     return (
         <DashboardStyled>
@@ -26,30 +50,20 @@ function Dashboard() {
                         <History />
                         <h2 className="salary-title">Min <span>Income</span>Max</h2>
                         <div className="salary-item">
-                            <p>
-                                ${Math.min(...incomes.map(item => item.amount))}
-                            </p>
-                            <p>
-                                ${Math.max(...incomes.map(item => item.amount))}
-                            </p>
+                            <p>${minIncome.toFixed(2)}</p>
+                            <p>${maxIncome.toFixed(2)}</p>
                         </div>
                         <h2 className="salary-title">Min <span>Expense</span>Max</h2>
                         <div className="salary-item">
-                            <p>
-                                ${Math.min(...expenses.map(item => item.amount))}
-                            </p>
-                            <p>
-                                ${Math.max(...expenses.map(item => item.amount))}
-                            </p>
+                            <p>${minExpense.toFixed(2)}</p>
+                            <p>${maxExpense.toFixed(2)}</p>
                         </div>
                     </div>
                 </div>
                 <div className="amount-con">
                     <div className="income">
                         <h2>Total Income</h2>
-                        <p>
-                            {dollar} {totalIncome()}
-                        </p>
+                        <p>{dollar} {totalIncome().toFixed(2)}</p>
                     </div>
                     <div className="balance">
                         <h2>Total Balance</h2>
@@ -57,14 +71,12 @@ function Dashboard() {
                             color: totalBalance() < 0 ? 'var(--color-delete)' : 'var(--color-green)',
                             opacity: 1
                         }}>
-                            {dollar} {totalBalance()}
+                            {dollar} {totalBalance().toFixed(2)}
                         </p>
                     </div>
                     <div className="expense">
                         <h2>Total Expense</h2>
-                        <p>
-                            {dollar} {totalExpenses()}
-                        </p>
+                        <p>{dollar} {totalExpenses().toFixed(2)}</p>
                     </div>
                 </div>
             </InnerLayout>
@@ -163,7 +175,6 @@ const DashboardStyled = styled.div`
         }
     }
 `;
-
 
 const StyledTitle = styled.h1`
     color: #2c3e50;

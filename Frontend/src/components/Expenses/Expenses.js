@@ -1,39 +1,54 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import styled from 'styled-components'
 import { useGlobalContext } from '../../context/globalContext';
 import { InnerLayout } from '../../styles/Layouts';
-import Form from '../Form/Form';
-import IncomeItem from '../IncomeItem/IncomeItem';
 import ExpenseForm from './ExpenseForm';
+import IncomeItem from '../IncomeItem/IncomeItem';
 
 function Expenses() {
-    const {addIncome,expenses, getExpenses, deleteExpense, totalExpenses} = useGlobalContext()
+    const { expenses, getExpenses, deleteExpense, totalExpenses } = useGlobalContext()
+    const [error, setError] = useState(null)
 
-    useEffect(() =>{
-        getExpenses()
-    }, [])
+    useEffect(() => {
+        const fetchExpenses = async () => {
+            try {
+                await getExpenses()
+            } catch (err) {
+                setError('Failed to fetch expenses')
+            }
+        }
+        fetchExpenses()
+    }, [getExpenses])
+
+    const sortedExpenses = useMemo(() => {
+        return [...expenses].sort((a, b) => new Date(b.date) - new Date(a.date))
+    }, [expenses])
+
+    if (error) {
+        return <div>Error: {error}</div>
+    }
+
     return (
         <ExpenseStyled>
             <InnerLayout>
                 <StyledTitle>Add new Expense :(</StyledTitle>
-                <h2 className="total-expense">Total Expense: <span>${totalExpenses()}</span></h2>
+                <h2 className="total-expense">Total Expense: <span>${totalExpenses().toFixed(2)}</span></h2>
                 <div className="income-content">
                     <div className="form-container">
                         <ExpenseForm />
                     </div>
                     <div className="incomes">
-                        {expenses.map((income) => {
-                            const {_id, title, amount, date, category, description, type} = income;
-                            console.log(income)
+                        {sortedExpenses.map((expense) => {
+                            const { id, _id, title, amount, date, category, description, type } = expense;
                             return <IncomeItem
-                                key={_id}
-                                id={_id} 
-                                title={title} 
-                                description={description} 
-                                amount={amount} 
-                                date={date} 
+                                key={id || _id}
+                                id={id || _id}
+                                title={title}
+                                description={description}
+                                amount={amount}
+                                date={date}
                                 type={type}
-                                category={category} 
+                                category={category}
                                 indicatorColor="var(--color-red)"
                                 deleteItem={deleteExpense}
                             />
@@ -60,7 +75,6 @@ const ExpenseStyled = styled.div`
         margin: 1rem 0;
         font-size: 2rem;
         gap: .5rem;
-
         span {
             font-size: 2.5rem;
             font-weight: 800;
@@ -87,7 +101,6 @@ const StyledTitle = styled.h1`
     padding-bottom: 1rem;
     border-bottom: 3px solid #2c3e50;
     position: relative;
-
     &::after {
         content: '';
         position: absolute;

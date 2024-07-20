@@ -6,7 +6,6 @@ import { useGlobalContext } from '../../context/globalContext';
 import Button from '../Button/Button';
 import { plus } from '../../utils/Icons';
 
-
 function Form() {
     const {addIncome, error, setError} = useGlobalContext()
     const [inputState, setInputState] = useState({
@@ -17,7 +16,7 @@ function Form() {
         description: '',
     })
 
-    const { title, amount, date, category,description } = inputState;
+    const { title, amount, date, category, description } = inputState;
 
     const handleInput = name => e => {
         setInputState({...inputState, [name]: e.target.value})
@@ -26,7 +25,20 @@ function Form() {
 
     const handleSubmit = e => {
         e.preventDefault()
-        addIncome(inputState)
+        if (!title || !amount || !date || !category || !description) {
+            setError('All fields are required')
+            return
+        }
+        if (isNaN(amount) || amount <= 0) {
+            setError('Amount must be a positive number')
+            return
+        }
+        const incomeData = {
+            ...inputState,
+            amount: parseFloat(amount),
+            date: date instanceof Date ? date.toISOString().split('T')[0] : ''
+        }
+        addIncome(incomeData)
         setInputState({
             title: '',
             amount: '',
@@ -40,24 +52,26 @@ function Form() {
         <FormStyled onSubmit={handleSubmit}>
             {error && <p className='error'>{error}</p>}
             <div className="input-control">
-                <input 
-                    type="text" 
+                <input
+                    type="text"
                     value={title}
-                    name={'title'} 
+                    name={'title'}
                     placeholder="Income Title"
                     onChange={handleInput('title')}
                 />
             </div>
             <div className="input-control">
-                <input value={amount}  
-                    type="text" 
-                    name={'amount'} 
+                <input
+                    value={amount}
+                    type="number"
+                    name={'amount'}
                     placeholder={'Income Amount'}
-                    onChange={handleInput('amount')} 
+                    onChange={handleInput('amount')}
+                    step="0.01"
                 />
             </div>
             <div className="input-control">
-                <DatePicker 
+                <DatePicker
                     id='date'
                     placeholderText='Enter A Date'
                     selected={date}
@@ -75,16 +89,16 @@ function Form() {
                     <option value="investments">Investments</option>
                     <option value="stocks">Stocks</option>
                     <option value="bitcoin">Bitcoin</option>
-                    <option value="bank">Bank Transfer</option>  
-                    <option value="youtube">Youtube</option>  
-                    <option value="other">Other</option>  
+                    <option value="bank">Bank Transfer</option>
+                    <option value="youtube">Youtube</option>
+                    <option value="other">Other</option>
                 </select>
             </div>
             <div className="input-control">
                 <textarea name="description" value={description} placeholder='Description' id="description" cols="30" rows="4" onChange={handleInput('description')}></textarea>
             </div>
             <div className="submit-btn">
-                <Button 
+                <Button
                     name={'Add Income'}
                     icon={plus}
                     bPad={'.8rem 1.6rem'}
@@ -96,7 +110,6 @@ function Form() {
         </FormStyled>
     )
 }
-
 
 const FormStyled = styled.form`
     display: flex;
@@ -123,6 +136,12 @@ const FormStyled = styled.form`
         }
     }
 
+    .error {
+        color: red;
+        font-size: 0.8rem;
+        margin-top: -1rem;
+    }
+
     .selects select {
         color: #7f8c8d;
 
@@ -140,4 +159,5 @@ const FormStyled = styled.form`
         }
     }
 `;
+
 export default Form

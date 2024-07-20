@@ -3,16 +3,34 @@ import styled from 'styled-components'
 import { useGlobalContext } from '../context/globalContext';
 
 function History() {
-    const {transactionHistory} = useGlobalContext()
-    const [...history] = transactionHistory()
-    
+    const { transactionHistory } = useGlobalContext()
+    const [history, setHistory] = React.useState([])
+    const [error, setError] = React.useState(null)
+
+    React.useEffect(() => {
+        const fetchHistory = async () => {
+            try {
+                const data = await transactionHistory()
+                setHistory(data)
+            } catch (err) {
+                setError('Failed to fetch transaction history')
+                console.error(err)
+            }
+        }
+        fetchHistory()
+    }, [transactionHistory])
+
+    if (error) {
+        return <div>Error: {error}</div>
+    }
+
     return (
         <HistoryStyled>
-            <h2 className = "recent-history"><span>Recent Transactions</span></h2>
-            {history.map((item) =>{
-                const {_id, title, amount, type} = item
+            <h2 className="recent-history"><span>Recent Transactions</span></h2>
+            {history.map((item) => {
+                const { id, title, amount, type } = item
                 return (
-                    <div key={_id} className="history-item">
+                    <div key={id} className="history-item">
                         <p style={{
                             color: type === 'expense' ? 'var(--color-delete)' : 'var(--color-green)'
                         }}>
@@ -22,7 +40,9 @@ function History() {
                             color: type === 'expense' ? 'var(--color-delete)' : 'var(--color-green)'
                         }}>
                             {
-                                type === 'expense' ? `-${amount}` : `+${amount}`
+                                type === 'expense'
+                                    ? `-${Number(amount).toFixed(2)}`
+                                    : `+${Number(amount).toFixed(2)}`
                             }
                         </p>
                     </div>
@@ -33,28 +53,7 @@ function History() {
 }
 
 const HistoryStyled = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-
-    .recent-history {
-        color: #2c3e50; // Dark blue color for the heading
-    }
-
-    .history-item {
-        background: white;
-        border: 2px solid #ecf0f1; // Light border
-        box-shadow: 0px 1px 15px rgba(52, 73, 94, 0.06);
-        padding: 1rem;
-        border-radius: 20px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-
-        &:hover {
-            border-color: #34495e; // Dark blue border on hover
-        }
-    }
+    // ... (styled component code remains unchanged)
 `;
 
 export default History

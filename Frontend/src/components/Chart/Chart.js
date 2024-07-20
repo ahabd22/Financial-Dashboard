@@ -1,5 +1,6 @@
-import React from 'react'
-import {Chart as ChartJs, 
+import React, { useMemo } from 'react'
+import {
+    Chart as ChartJs,
     CategoryScale,
     LinearScale,
     PointElement,
@@ -9,8 +10,7 @@ import {Chart as ChartJs,
     Legend,
     ArcElement,
 } from 'chart.js'
-
-import {Line} from 'react-chartjs-2'
+import { Line } from 'react-chartjs-2'
 import styled from 'styled-components'
 import { useGlobalContext } from '../../context/globalContext'
 import { dateFormat } from '../../utils/dateFormat'
@@ -27,44 +27,57 @@ ChartJs.register(
 )
 
 function Chart() {
-    const {incomes, expenses} = useGlobalContext()
+    const { incomes, expenses } = useGlobalContext()
 
-    const data = {
-        labels: incomes.map((inc) =>{
-            const {date} = inc
-            return dateFormat(date)
-        }),
-        datasets: [
-            {
-                label: 'Income',
-                data: [
-                    ...incomes.map((income) => {
-                        const {amount} = income
-                        return amount
-                    })
-                ],
-                backgroundColor: 'green',
-                tension: .2
-            },
-            {
-                label: 'Expense',
-                data: [
-                    ...expenses.map((expense) => {
-                        const {amount} = expense
-                        return amount
-                    })
-                ],
-                backgroundColor: 'red',
-                tension: .2
-            }
-        ]
-    }
+    const data = useMemo(() => {
+        const incomesDates = incomes.map(inc => dateFormat(inc.date))
+        const expensesDates = expenses.map(exp => dateFormat(exp.date))
+        const allDates = [...new Set([...incomesDates, ...expensesDates])].sort((a, b) => new Date(a) - new Date(b))
+
+        return {
+            labels: allDates,
+            datasets: [
+                {
+                    label: 'Income',
+                    data: allDates.map(date => {
+                        const income = incomes.find(inc => dateFormat(inc.date) === date)
+                        return income ? Number(income.amount) : 0
+                    }),
+                    backgroundColor: 'green',
+                    borderColor: 'green',
+                    tension: .2
+                },
+                {
+                    label: 'Expense',
+                    data: allDates.map(date => {
+                        const expense = expenses.find(exp => dateFormat(exp.date) === date)
+                        return expense ? Number(expense.amount) : 0
+                    }),
+                    backgroundColor: 'red',
+                    borderColor: 'red',
+                    tension: .2
+                }
+            ]
+        }
+    }, [incomes, expenses])
 
     const options = {
         responsive: true,
         maintainAspectRatio: false,
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
     };
 
+    if (incomes.length === 0 && expenses.length === 0) {
+        return (
+            <ChartStyled>
+                <ChartTitle>No data available</ChartTitle>
+            </ChartStyled>
+        )
+    }
 
     return (
         <ChartStyled>
@@ -85,7 +98,7 @@ const ChartStyled = styled.div`
     height: 400px;
     display: flex;
     flex-direction: column;
-    margin-top: 2rem; // Add margin to the top
+    margin-top: 2rem;
 `;
 
 const ChartTitle = styled.h2`
@@ -97,7 +110,5 @@ const ChartContainer = styled.div`
     flex: 1;
     position: relative;
 `;
-
-
 
 export default Chart
