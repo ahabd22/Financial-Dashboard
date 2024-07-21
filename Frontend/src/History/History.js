@@ -1,7 +1,7 @@
-import React, { useMemo } from 'react'
+import React, {useMemo} from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { useGlobalContext } from '../context/globalContext';
+import {useGlobalContext} from '../context/globalContext';
 
 function History() {
     const { transactionHistory } = useGlobalContext()

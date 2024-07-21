@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, {useEffect, useState} from 'react'
 import styled from 'styled-components'
-import { useGlobalContext } from '../../context/globalContext'
-import { InnerLayout } from '../../styles/Layouts'
+import {useGlobalContext} from '../../context/globalContext'
+import {InnerLayout} from '../../styles/Layouts'
 import Chart from 'react-apexcharts'
 import Button from '../Button/Button'
 

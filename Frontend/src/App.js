@@ -1,11 +1,11 @@
-import React, {useState, useMemo} from 'react'
+import React, {useState} from 'react'
 import styled from "styled-components";
 import {MainContent, MainLayout} from './styles/Layouts'
 import Navigation from './components/Navigation/Navigation'
 import Dashboard from './components/Dashboard/Dashboard';
 import Income from './components/Income/Income'
 import Expenses from './components/Expenses/Expenses';
-import { useGlobalContext } from './context/globalContext';
+import {useGlobalContext} from './context/globalContext';
 import StockData from './components/StockData/StockData';
 
 function App() {

@@ -1,17 +1,9 @@
-import React, { useMemo } from 'react'
+import React, {useMemo} from 'react'
 import PropTypes from 'prop-types'
-import {
-    Chart as ChartJs,
-    CategoryScale,
-    LinearScale,
-    BarElement,
-    Title,
-    Tooltip,
-    Legend,
-} from 'chart.js'
-import { Bar } from 'react-chartjs-2'
+import {BarElement, CategoryScale, Chart as ChartJs, Legend, LinearScale, Title, Tooltip,} from 'chart.js'
+import {Bar} from 'react-chartjs-2'
 import styled from 'styled-components'
-import { useGlobalContext } from '../../context/globalContext'
+import {useGlobalContext} from '../../context/globalContext'
 
 ChartJs.register(
     CategoryScale,
