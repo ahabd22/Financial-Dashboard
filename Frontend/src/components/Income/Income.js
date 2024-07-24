@@ -39,8 +39,8 @@ function Income() {
     return (
         <IncomeStyled>
             <InnerLayout>
-                <StyledTitle>Add new income!</StyledTitle>
-                <h2 className="total-income">Total Income: <span>${totalIncome().toFixed(2)}</span></h2>
+                <StyledTitle>Tilføj ny Indkomst!</StyledTitle>
+                <h2 className="total-income">Samlet indkomst: <span>${totalIncome().toFixed(2)}</span></h2>
                 <div className="income-content">
                     <div className="form-container">
                         <Form />

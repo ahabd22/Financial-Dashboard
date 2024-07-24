@@ -56,7 +56,7 @@ function Form() {
                     type="text"
                     value={title}
                     name={'title'}
-                    placeholder="Income Title"
+                    placeholder="Titel"
                     onChange={handleInput('title')}
                 />
             </div>
@@ -65,7 +65,7 @@ function Form() {
                     value={amount}
                     type="number"
                     name={'amount'}
-                    placeholder={'Income Amount'}
+                    placeholder={'Beløb'}
                     onChange={handleInput('amount')}
                     step="0.01"
                 />
@@ -73,7 +73,7 @@ function Form() {
             <div className="input-control">
                 <DatePicker
                     id='date'
-                    placeholderText='Enter A Date'
+                    placeholderText='Indtast En Dato'
                     selected={date}
                     dateFormat="dd/MM/yyyy"
                     onChange={(date) => {
@@ -83,28 +83,27 @@ function Form() {
             </div>
             <div className="selects input-control">
                 <select required value={category} name="category" id="category" onChange={handleInput('category')}>
-                    <option value=""  disabled >Select Option</option>
-                    <option value="salary">Salary</option>
-                    <option value="freelancing">Freelancing</option>
-                    <option value="investments">Investments</option>
-                    <option value="stocks">Stocks</option>
+                    <option value=""  disabled >Indkomstkilder</option>
+                    <option value="salary">Løn</option>
+                    <option value="freelancing">Freelance</option>
+                    <option value="investments">Investeringer</option>
                     <option value="bitcoin">Bitcoin</option>
-                    <option value="bank">Bank Transfer</option>
-                    <option value="youtube">Youtube</option>
-                    <option value="other">Other</option>
+                    <option value="bank">Bankoverførsel</option>
+                    <option value="youtube">YouTube</option>
+                    <option value="other">Andet</option>
                 </select>
             </div>
             <div className="input-control">
-                <textarea name="description" value={description} placeholder='Description' id="description" cols="30" rows="4" onChange={handleInput('description')}></textarea>
+                <textarea name="description" value={description} placeholder='Beskrivelse' id="description" cols="30" rows="4" onChange={handleInput('description')}></textarea>
             </div>
             <div className="submit-btn">
                 <Button
-                    name={'Add Income'}
+                    name={'Tilføj indkomst'}
                     icon={plus}
                     bPad={'.8rem 1.6rem'}
                     bRad={'30px'}
-                    bg={'var(--color-accent'}
-                    color={'#fff'}
+                    bg={'red'}
+                    color={'white'}
                 />
             </div>
         </FormStyled>

@@ -3,25 +3,25 @@ import {expenses, home, trend} from "./Icons";
 export const menuItems = [
     {
         id: 1,
-        title: 'Dashboard',
+        title: 'Overblik',
         icon: home,
         link: '/dashboard'
     },
     {
         id: 2,
-        title: "Income",
+        title: "Indkomster",
         icon: trend,
         link: "/dashboard",
     },
     {
         id: 3,
-        title: "Expense",
+        title: "Udgifter",
         icon: expenses,
         link: "/dashboard",
     },
     {
         id: 4,
-        title: 'Stock Data',
+        title: 'Børs',
         icon: trend,
         link: '/stock-data'
     }

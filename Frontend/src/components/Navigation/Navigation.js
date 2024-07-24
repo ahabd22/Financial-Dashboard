@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import avatar from '../../img/Avatar.jpg';
+import avatar from '../../img/avatar.jpg';
 import {signout} from '../../utils/Icons';
 import {menuItems} from '../../utils/menuItems';
 
@@ -78,6 +78,7 @@ const UserName = styled.h2`
     font-size: 18px;
     margin: 0;
     font-weight: 600;
+    color: lightgrey;
 `;
 
 const UserSubtext = styled.p`

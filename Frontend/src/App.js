@@ -45,7 +45,7 @@ function App() {
 
 const AppStyled = styled.div`
   height: 100vh;
-  background-color: black;
+  background-color: white;
   position: relative;
 
   main {
