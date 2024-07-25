@@ -11,7 +11,7 @@ function Navigation({ active, setActive }) {
                 <Avatar src={avatar} alt="User Avatar" />
                 <UserText>
                     <UserName>Kasper</UserName>
-                    <UserSubtext>Your Finances</UserSubtext>
+                    <UserSubtext>Din Økonomi</UserSubtext>
                 </UserText>
             </UserInfo>
             <MenuList>
@@ -29,7 +29,7 @@ function Navigation({ active, setActive }) {
             <BottomNav>
                 <SignOutButton>
                     <SignOutIcon>{signout}</SignOutIcon>
-                    <span>Sign Out</span>
+                    <span>Log ud</span>
                 </SignOutButton>
             </BottomNav>
         </NavStyled>

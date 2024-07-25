@@ -51,10 +51,10 @@ function StockData() {
     return (
         <StockDataStyled>
             <InnerLayout>
-                <StyledTitle>Stock Chart</StyledTitle>
+                <StyledTitle>Børsen</StyledTitle>
                 <div className="stock-content">
                     <div className="ticker-select">
-                        <label htmlFor="ticker">Select Stock Ticker: </label>
+                        <label htmlFor="ticker">Udvælg Værdipapir: </label>
                         <select id="ticker" value={ticker} onChange={handleTickerChange}>
                             <option value="IBM">IBM</option>
                             <option value="AAPL">Apple</option>
@@ -79,7 +79,7 @@ function StockData() {
                     )}
                     <div className="refresh-btn">
                         <Button
-                            name={'Refresh Data'}
+                            name={'Opdater Data'}
                             bPad={'.8rem 1.6rem'}
                             bRad={'30px'}
                             bg={'var(--color-accent'}

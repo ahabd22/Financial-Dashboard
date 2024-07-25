@@ -41,7 +41,7 @@ function Dashboard() {
     return (
         <DashboardStyled>
             <InnerLayout>
-                <StyledTitle>Overview</StyledTitle>
+                <StyledTitle>Overblik</StyledTitle>
                 <ContentWrapper>
                     <div className="stats-con">
                         <div className="chart-con">
@@ -49,12 +49,12 @@ function Dashboard() {
                         </div>
                         <div className="history-con">
                             <History />
-                            <h2 className="salary-title">Min <span>Income</span>Max</h2>
+                            <h2 className="salary-title">Min <span>Indkomst</span>Max</h2>
                             <div className="salary-item">
                                 <p>${minIncome.toFixed(2)}</p>
                                 <p>${maxIncome.toFixed(2)}</p>
                             </div>
-                            <h2 className="salary-title">Min <span>Expense</span>Max</h2>
+                            <h2 className="salary-title">Min <span>Udgift</span>Max</h2>
                             <div className="salary-item">
                                 <p>${minExpense.toFixed(2)}</p>
                                 <p>${maxExpense.toFixed(2)}</p>
@@ -64,11 +64,11 @@ function Dashboard() {
                 </ContentWrapper>
                 <AmountContainer>
                     <div className="income">
-                        <h2>Total Income</h2>
+                        <h2>Samlet Indkomst</h2>
                         <p>{dollar} {totalIncome().toFixed(2)}</p>
                     </div>
                     <div className="balance">
-                        <h2>Total Balance</h2>
+                        <h2>Saldo</h2>
                         <p style={{
                             color: totalBalance() < 0 ? 'var(--color-delete)' : 'var(--color-green)',
                             opacity: 1
@@ -77,7 +77,7 @@ function Dashboard() {
                         </p>
                     </div>
                     <div className="expense">
-                        <h2>Total Expense</h2>
+                        <h2>Samlede Udgifter</h2>
                         <p>{dollar} {totalExpenses().toFixed(2)}</p>
                     </div>
                 </AmountContainer>

@@ -14,7 +14,7 @@ function History() {
     if (history.length === 0) {
         return (
             <HistoryStyled>
-                <h2 className="recent-history"><span>Recent Transactions</span></h2>
+                <h2 className="recent-history"><span>Seneste Transaktioner</span></h2>
                 <p>No recent transactions</p>
             </HistoryStyled>
         )
@@ -22,7 +22,7 @@ function History() {
 
     return (
         <HistoryStyled>
-            <h2 className="recent-history"><span>Recent Transactions</span></h2>
+            <h2 className="recent-history"><span>Seneste Transaktioner</span></h2>
             {history.map((item) => {
                 const {id, _id, title, amount, type} = item
                 return (

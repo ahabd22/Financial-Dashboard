@@ -31,8 +31,8 @@ function Expenses() {
     return (
         <ExpenseStyled>
             <InnerLayout>
-                <StyledTitle>Add new Expense :(</StyledTitle>
-                <h2 className="total-expense">Total Expense: <span>${totalExpenses().toFixed(2)}</span></h2>
+                <StyledTitle>Tilføj ny Udgift</StyledTitle>
+                <h2 className="total-expense">Samlede udgifter: <span>${totalExpenses().toFixed(2)}</span></h2>
                 <div className="income-content">
                     <div className="form-container">
                         <ExpenseForm />
