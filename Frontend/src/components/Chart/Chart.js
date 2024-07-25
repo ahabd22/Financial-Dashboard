@@ -18,7 +18,7 @@ function Chart() {
     const { incomes, expenses } = useGlobalContext()
 
     const data = useMemo(() => {
-        const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        const monthNames = ["Jan", "Feb", "Mar", "Apr", "Maj", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
         const groupByMonth = (transactions) => {
             return transactions.reduce((acc, transaction) => {
@@ -84,7 +84,7 @@ function Chart() {
             },
             title: {
                 display: true,
-                text: 'Månedlig indkomster samt udgifter'
+                text: 'Månedlige indkomster samt udgifter'
             },
             tooltip: {
                 callbacks: {
