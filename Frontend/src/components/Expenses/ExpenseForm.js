@@ -100,7 +100,7 @@ function ExpenseForm() {
             </div>
             <div className="submit-btn">
                 <Button
-                    name={'Add Expense'}
+                    name={'Tilføj udgift'}
                     icon={plus}
                     bPad={'.8rem 1.6rem'}
                     bRad={'30px'}

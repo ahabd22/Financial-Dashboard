@@ -45,14 +45,14 @@ function Chart() {
             labels: allMonths,
             datasets: [
                 {
-                    label: 'Income',
+                    label: 'Indkomst',
                     data: allMonths.map(month => incomesByMonth[month] || 0),
                     backgroundColor: 'rgba(75, 192, 192, 0.6)',
                     borderColor: 'rgba(75, 192, 192, 1)',
                     borderWidth: 1
                 },
                 {
-                    label: 'Expense',
+                    label: 'Udgift',
                     data: allMonths.map(month => expensesByMonth[month] || 0),
                     backgroundColor: 'rgba(255, 99, 132, 0.6)',
                     borderColor: 'rgba(255, 99, 132, 1)',
@@ -74,7 +74,7 @@ function Chart() {
                 beginAtZero: true,
                 title: {
                     display: true,
-                    text: 'Amount ($)'
+                    text: 'Beløb ($)'
                 }
             }
         },
@@ -84,7 +84,7 @@ function Chart() {
             },
             title: {
                 display: true,
-                text: 'Monthly Income and Expenses'
+                text: 'Månedlig indkomster samt udgifter'
             },
             tooltip: {
                 callbacks: {
