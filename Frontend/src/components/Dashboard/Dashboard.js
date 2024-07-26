@@ -49,12 +49,12 @@ function Dashboard() {
                         </div>
                         <div className="history-con">
                             <History />
-                            <h2 className="salary-title">Min <span>Indkomst</span>Max</h2>
+                            <h2 className="salary-title">Mindste <span>Indkomst</span>Højeste</h2>
                             <div className="salary-item">
                                 <p>${minIncome.toFixed(2)}</p>
                                 <p>${maxIncome.toFixed(2)}</p>
                             </div>
-                            <h2 className="salary-title">Min <span>Udgift</span>Max</h2>
+                            <h2 className="salary-title">Mindste <span>Udgift</span>Højeste</h2>
                             <div className="salary-item">
                                 <p>${minExpense.toFixed(2)}</p>
                                 <p>${maxExpense.toFixed(2)}</p>
